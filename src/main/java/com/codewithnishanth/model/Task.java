@@ -6,26 +6,17 @@ public class Task {
     private String description;
     private boolean completed;
 
-    private boolean showActions;
 
-    public Task(int id, String taskName, String description, boolean completed, boolean showActions) {
+    public Task(int id, String taskName, String description, boolean completed) {
         this.id = id;
         this.taskName = taskName;
         this.description = description;
         this.completed = completed;
-        this.showActions = showActions;
     }
 
     public Task() {
     }
 
-    public boolean isShowActions() {
-        return showActions;
-    }
-
-    public void setShowActions(boolean showActions) {
-        this.showActions = showActions;
-    }
 
     public int getId() {
         return id;

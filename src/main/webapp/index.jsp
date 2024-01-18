@@ -54,6 +54,7 @@
            }
            document.getElementById("taskForm").submit();
            console.log(`Task ID: ${checkbox.value}`);
+           return false;
 
 
        }
@@ -64,7 +65,7 @@
 </head>
 <body>
     <h2 class="mt-4">Task App</h2>
-    <form action="TaskController" method="post">
+    <form id="taskForm" action="TaskController" method="post">
         <div class="mb-3">
             <label for="dropdown" class="form-label">Select a Task Type:</label>
             <select name="taskName" id="dropdown" class="form-control">
@@ -110,7 +111,6 @@
                </c:forEach>
            </tbody>
        </table>
-
        <!-- Save button outside the forEach loop -->
        <button type="submit" name="action" value="save" class="btn btn-primary">Save</button>
 
