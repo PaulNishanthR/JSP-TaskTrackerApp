@@ -8,6 +8,17 @@ public class Task {
 
     private boolean showActions;
 
+    public Task(int id, String taskName, String description, boolean completed, boolean showActions) {
+        this.id = id;
+        this.taskName = taskName;
+        this.description = description;
+        this.completed = completed;
+        this.showActions = showActions;
+    }
+
+    public Task() {
+    }
+
     public boolean isShowActions() {
         return showActions;
     }
