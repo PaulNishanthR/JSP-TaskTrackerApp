@@ -32,6 +32,14 @@
         .completed {
             background-color: #e0e0e0;
         }
+         .table-success {
+                background-color: #e0e0e0; /* Add your desired style for view-only mode */
+            }
+
+            .table-success input,
+            .table-success button {
+                pointer-events: none;
+            }
     </style>
 
    <script>
@@ -52,8 +60,8 @@
                });
                row.classList.remove('table-success');
            }
-           document.getElementById("taskForm").submit();
            console.log(`Task ID: ${checkbox.value}`);
+           return false;
 
 
        }
@@ -64,7 +72,7 @@
 </head>
 <body>
     <h2 class="mt-4">Task App</h2>
-    <form action="TaskController" method="post">
+    <form id="taskForm" action="TaskController" method="post">
         <div class="mb-3">
             <label for="dropdown" class="form-label">Select a Task Type:</label>
             <select name="taskName" id="dropdown" class="form-control">
@@ -79,7 +87,7 @@
             <textarea placeholder="Enter task details ..." name="taskDescription" class="form-control"></textarea>
         </div>
         <button type="submit" name="action" value="add" class="btn btn-primary mb-3">Add</button>
-
+</form>
        <table id="taskTable" class="table">
            <thead>
                <tr>
@@ -99,18 +107,34 @@
                        <td>${task.description}</td>
                        <!-- Action column with hidden inputs -->
                        <td>
-                           <input type="checkbox" name="completedTasks" value="${task.id}" onclick="toggleRow(this)">
+                       <form action="TaskController" method="post">
+                           <input type="checkbox" name="completedTasks_${loop.index}" value="${task.id}">
                            <input type="hidden" name="taskId" value="${task.id}">
-                           <button type="submit" name="action" value="delete" class="btn btn-danger">Delete</button>
+                           <button type="submit" name="action" value="delete" class="btn btn-danger" ${task.completed ? 'disabled' : ''}>Delete</button>
                            <!-- Hidden inputs for each task -->
                            <input type="hidden" name="completedTasks_${loop.index}" value="${task.id}">
                            <input type="hidden" name="deletedTasks_${loop.index}" value="${task.id}">
+                       </form>
                        </td>
                    </tr>
                </c:forEach>
+                <!-- Display details of the added task within the table -->
+                           <c:if test="${data != null}">
+                                                <tr>
+                                                           <td><c:out value="${dataList.id}" /></td>
+                                                           <td><c:out value="${dataList.taskName }"/></td>
+                                                           <td><c:out value="${dataList.description} " /></td>
+                                                           <td>
+                                                               <input type="checkbox" name="completedTasks_${loop.index}" ${dataList.completed ? 'checked' : ''}>
+                                                               <button type="submit" name="action" value="delete" class="btn btn-danger" ${dataList.completed ? 'disabled' : ''}>Delete</button>
+                                                           </td>
+                                                       </tr>
+
+                           </c:if>
+
            </tbody>
        </table>
-
+       <form action="TaskController" method="post">
        <!-- Save button outside the forEach loop -->
        <button type="submit" name="action" value="save" class="btn btn-primary">Save</button>
 
