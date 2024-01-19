@@ -32,14 +32,6 @@
         .completed {
             background-color: #e0e0e0;
         }
-         .table-success {
-                background-color: #e0e0e0; /* Add your desired style for view-only mode */
-            }
-
-            .table-success input,
-            .table-success button {
-                pointer-events: none;
-            }
     </style>
 
    <script>
@@ -107,10 +99,11 @@
                        <td>${task.description}</td>
                        <!-- Action column with hidden inputs -->
                        <td>
-                       <form action="TaskController" method="post">
-                           <input type="checkbox" name="completedTasks_${loop.index}" value="${task.id}">
+                       <form action="TaskController" method="get">
+                           <input type="checkbox" name="completedTasks" value="${task.id}" onchange="this.form.submit()" ${task.completed ? 'checked' : ''}>
+                           <label>Completed</label>
                            <input type="hidden" name="taskId" value="${task.id}">
-                           <button type="submit" name="action" value="delete" class="btn btn-danger" ${task.completed ? 'disabled' : ''}>Delete</button>
+                           <button type="submit" name="action" value="delete" class="btn btn-danger">Delete</button>
                            <!-- Hidden inputs for each task -->
                            <input type="hidden" name="completedTasks_${loop.index}" value="${task.id}">
                            <input type="hidden" name="deletedTasks_${loop.index}" value="${task.id}">
@@ -120,15 +113,17 @@
                </c:forEach>
                 <!-- Display details of the added task within the table -->
                            <c:if test="${data != null}">
-                                                <tr>
-                                                           <td><c:out value="${dataList.id}" /></td>
-                                                           <td><c:out value="${dataList.taskName }"/></td>
-                                                           <td><c:out value="${dataList.description} " /></td>
-                                                           <td>
-                                                               <input type="checkbox" name="completedTasks_${loop.index}" ${dataList.completed ? 'checked' : ''}>
-                                                               <button type="submit" name="action" value="delete" class="btn btn-danger" ${dataList.completed ? 'disabled' : ''}>Delete</button>
-                                                           </td>
-                                                       </tr>
+                                               <tr>
+                                                   <td><c:out value="${dataList.id}" /></td>
+                                                   <td><c:out value="${dataList.taskName }"/></td>
+
+                                                   <td><c:out value="${dataList.description} " /></td>
+                                                   <td>
+                                               <input type="checkbox" name="completedTasks">
+
+                                                <button class="btn btn-danger" type="submit" >Delete</button></td>
+
+                                                </tr>
 
                            </c:if>
 
