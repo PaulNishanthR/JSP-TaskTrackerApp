@@ -33,34 +33,6 @@
             background-color: #e0e0e0;
         }
     </style>
-
-   <script>
-       function toggleRow(checkbox) {
-           var row = checkbox.closest('tr');
-
-           if (checkbox.checked) {
-               var inputsAndButtons = row.querySelectorAll('input, button');
-               inputsAndButtons.forEach(function (element) {
-                   element.disabled = true;
-               });
-               row.classList.add('table-success');
-               console.log("task.id");
-           } else {
-               var inputsAndButtons = row.querySelectorAll('input, button');
-               inputsAndButtons.forEach(function (element) {
-                   element.disabled = false;
-               });
-               row.classList.remove('table-success');
-           }
-           console.log(`Task ID: ${checkbox.value}`);
-           return false;
-
-
-       }
-
-
-   </script>
-
 </head>
 <body>
     <h2 class="mt-4">Task App</h2>
@@ -68,7 +40,7 @@
         <div class="mb-3">
             <label for="dropdown" class="form-label">Select a Task Type:</label>
             <select name="taskName" id="dropdown" class="form-control">
-                <option value="select"></option>
+                <option value="">Select Type</option>
                 <option value="remainder">remainder</option>
                 <option value="todo">todo</option>
                 <option value="follow-up">follow-up</option>
@@ -79,7 +51,7 @@
             <textarea placeholder="Enter task details ..." name="taskDescription" class="form-control"></textarea>
         </div>
         <button type="submit" name="action" value="add" class="btn btn-primary mb-3">Add</button>
-</form>
+    </form>
        <table id="taskTable" class="table">
            <thead>
                <tr>
@@ -112,9 +84,9 @@
                    </tr>
                </c:forEach>
                 <!-- Display details of the added task within the table -->
-                           <c:if test="${data != null}">
-                                               <tr>
-                                                   <td><c:out value="${dataList.id}" /></td>
+                        <c:if test="${data != null}">
+                            <tr>
+                                 <td><c:out value="${dataList.id}" /></td>
                                                    <td><c:out value="${dataList.taskName }"/></td>
 
                                                    <td><c:out value="${dataList.description} " /></td>
