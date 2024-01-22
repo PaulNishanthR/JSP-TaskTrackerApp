@@ -16,4 +16,9 @@
         <servlet-name>TaskController</servlet-name>
         <url-pattern>/TaskController</url-pattern>
     </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>TaskController</servlet-name>
+        <url-pattern></url-pattern>
+    </servlet-mapping>
 </web-app>

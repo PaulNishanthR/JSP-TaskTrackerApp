@@ -33,6 +33,12 @@
             background-color: #e0e0e0;
         }
     </style>
+    <script>
+            function toggleCheckboxVisibility() {
+                var checkbox = document.getElementById("completedTasksCheckbox");
+                checkbox.style.display = "block"; // Change to "none" to hide
+            }
+        </script>
 </head>
 <body>
     <h2 class="mt-4">Task App</h2>
@@ -66,7 +72,7 @@
                    <!-- Rows for tasks -->
                    <tr class="${task.completed ? 'completed table-success' : ''}">
                        <!-- Task details columns -->
-                       <td>${task.id}</td>
+                       <td>${counter+1}</td>
                        <td>${task.taskName}</td>
                        <td>${task.description}</td>
                        <!-- Action column with hidden inputs -->
@@ -81,6 +87,7 @@
                            <input type="hidden" name="deletedTasks_${loop.index}" value="${task.id}">
                        </form>
                        </td>
+                         <c:set var="counter" value="${counter + 1}" scope="page" />
                    </tr>
                </c:forEach>
                 <!-- Display details of the added task within the table -->

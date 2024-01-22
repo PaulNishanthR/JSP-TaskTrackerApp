@@ -6,7 +6,6 @@ public class Task {
     private String description;
     private boolean completed;
 
-
     public Task(int id, String taskName, String description, boolean completed) {
         this.id = id;
         this.taskName = taskName;
@@ -16,7 +15,6 @@ public class Task {
 
     public Task() {
     }
-
 
     public int getId() {
         return id;
@@ -41,7 +39,6 @@ public class Task {
     public void setDescription(String description) {
         this.description = description;
     }
-
 
     public boolean isCompleted() {
         return completed;

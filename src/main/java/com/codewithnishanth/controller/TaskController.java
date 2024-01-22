@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -25,8 +24,6 @@ public class TaskController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//        String taskName = request.getParameter("taskName");
-//        String taskDescription = request.getParameter("taskDescription");
         String taskComplete = request.getParameter("completedTasks");
         String action = request.getParameter("action");
 
@@ -37,14 +34,9 @@ public class TaskController extends HttpServlet {
             Task task = new Task(0, taskName, taskDescription, false);
             data.add(task);
             request.setAttribute("dataList", null);
-//            request.setAttribute("data", data);
         } else if ("save".equals(action)) {
-//            taskDao.updateTasks(data);
-//            data=taskDao.getAllTasks();
-//            data.clear();
             if (!data.isEmpty()) {
                 taskDao.clearAllTasks();
-//                taskDao.updateTasks(data);
                 for (Task d : data) {
                     taskDao.addTask(d.getTaskName(), d.getDescription());
                 }
@@ -57,22 +49,10 @@ public class TaskController extends HttpServlet {
                     task.setCompleted(completedTask);
                 }
             } else {
-                System.out.printf("no tasks to save");
+                System.out.println("no tasks to save");
             }
-//        } else if ("delete".equals(action)) {
-//            String taskId = request.getParameter("taskId");
-////            if (taskId != null && !taskId.isEmpty()) {
-////                int id = Integer.parseInt(taskId);
-////                if (id >= 1 && id <= data.size()) {
-////                    data.remove(id - 1);
-////                }
-////            }
-//            taskDao.deleteTask(Integer.parseInt(taskId));
-//            data = taskDao.getAllTasks();
-//            request.setAttribute("dataList", null);
-//        }
         }
-
+        request.setAttribute("completedTasks", request.getParameterValues("completedTasks"));
         request.setAttribute("taskList", data);
         List<Task> taskList = taskDao.getAllTasks();
         request.setAttribute("task", taskList);
@@ -83,14 +63,18 @@ public class TaskController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
 
-
         String[] ids = request.getParameterValues("completedTasks");
-        System.out.println("ID:"+ids);
+        System.out.println("ID:" + Arrays.toString(ids));
 
         if (ids != null && ids.length > 0) {
             System.out.println(Arrays.asList(ids));
             for (String id : ids) {
-                taskDao.updateTaskCompletedStatus(Integer.parseInt(id), true);
+                if ("on".equals(id)) {
+                    System.out.println("Checkbox is xchecked");
+                } else {
+                    taskDao.updateTaskCompletedStatus(Integer.parseInt(id), true);
+
+                }
             }
             List<String> allIds = taskDao.getAllId();
             allIds.removeAll(Arrays.asList(ids));
@@ -104,18 +88,23 @@ public class TaskController extends HttpServlet {
             }
         }
         if ("delete".equals(action)) {
-            String taskId = request.getParameter("taskId");
-            taskDao.deleteTask(Integer.parseInt(taskId));
+            String taskIdParam = request.getParameter("taskId");
+            if (taskIdParam != null && !taskIdParam.isEmpty()) {
+                try {
+                    int taskId = Integer.parseInt(taskIdParam);
+                    taskDao.deleteTask(taskId);
 
-//            request.setAttribute("dataList", null);
+                } catch (NumberFormatException e) {
+                    System.out.println("Invalid Task ID format: " + taskIdParam);
+                }
+            } else {
+                System.out.println("Task ID parameter is null or empty.");
+            }
         }
         data = taskDao.getAllTasks();
         request.setAttribute("taskList", data);
         request.getRequestDispatcher("/index.jsp").forward(request, response);
     }
-
-
-
-
 }
+
 

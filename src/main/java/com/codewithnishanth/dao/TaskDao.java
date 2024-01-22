@@ -12,15 +12,10 @@ public class TaskDao {
     private  final String SELECT_ALL_TASKS = "SELECT * FROM tasks;";
     private final Connection connection;
     private final String INSERT_TASK = "INSERT INTO tasks (task_name, description, completed) VALUES (?, ?, false);";
-
     private  final String DELETE_TASK = "DELETE FROM tasks WHERE id = ?;";
-
     private  final String UPDATE_TASK_COMPLETED_STATUS = "UPDATE tasks SET completed = ? WHERE id = ?;";
-
     private  final String UPDATE_TASKS = "UPDATE tasks SET completed = ? WHERE id = ?;";
-
     private final String SELECT_ID="SELECT id FROM tasks;";
-
 
     public TaskDao(Connection connection) {
         this.connection = connection;
@@ -36,25 +31,6 @@ public class TaskDao {
             e.printStackTrace();
         }
     }
-
-//    public void addTask(String taskName, String description) {
-//        try {
-//            PreparedStatement preparedStatement = connection.prepareStatement(INSERT_TASK, Statement.RETURN_GENERATED_KEYS);
-//            preparedStatement.setString(1, taskName);
-//            preparedStatement.setString(2, description);
-//            preparedStatement.executeUpdate();
-//
-//            // Retrieve the generated key (ID)
-//            ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
-//            if (generatedKeys.next()) {
-//                int generatedId = generatedKeys.getInt(1);
-//                System.out.println("Generated ID: " + generatedId);
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//    }
-
 
     public List<Task> getAllTasks() {
         List<Task> taskList = new ArrayList<>();
@@ -151,10 +127,6 @@ public class TaskDao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return idList;
     }
-
-
-
 }
