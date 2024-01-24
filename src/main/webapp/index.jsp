@@ -34,15 +34,19 @@
         }
     </style>
     <script>
-            function toggleCheckboxVisibility() {
-                var checkbox = document.getElementById("completedTasksCheckbox");
-                checkbox.style.display = "block"; // Change to "none" to hide
-            }
+              function toggleDeleteButtonVisibility() {
+                         var deleteButton = document.getElementById("deleteButton");
+                         var checkbox = document.getElementById("completedTasksCheckbox");
+
+                         // Show the delete button and hide the checkbox
+                         deleteButton.style.display = "block";
+                         checkbox.style.display = "none";
+                     }
         </script>
 </head>
 <body>
     <h2 class="mt-4">Task App</h2>
-    <form id="taskForm" action="TaskController" method="post">
+    <form id="taskForm" action="TaskController" method="post" onsubmit="toggleDeleteButtonVisibility()">
         <div class="mb-3">
             <label for="dropdown" class="form-label">Select a Task Type:</label>
             <select name="taskName" id="dropdown" class="form-control">
@@ -70,6 +74,7 @@
            <tbody>
                <c:forEach var="task" items="${taskList}" varStatus="loop">
                    <!-- Rows for tasks -->
+
                    <tr class="${task.completed ? 'completed table-success' : ''}">
                        <!-- Task details columns -->
                        <td>${counter+1}</td>
@@ -78,13 +83,16 @@
                        <!-- Action column with hidden inputs -->
                        <td>
                        <form action="TaskController" method="get">
-                           <input type="checkbox" name="completedTasks" value="${task.id}" onchange="this.form.submit()" ${task.completed ? 'checked' : ''}>
-                           <label>Completed</label>
-                           <input type="hidden" name="taskId" value="${task.id}">
-                           <button type="submit" name="action" value="delete" class="btn btn-danger">Delete</button>
-                           <!-- Hidden inputs for each task -->
-                           <input type="hidden" name="completedTasks_${loop.index}" value="${task.id}">
-                           <input type="hidden" name="deletedTasks_${loop.index}" value="${task.id}">
+                       <c:if test="${task.flagID eq false}">
+                          <input type="checkbox" name="completedTasks" value="${task.id}" onchange="this.form.submit()" ${task.completed ? 'checked' : ''}>
+                          <label>Completed</label>
+                          <input type="hidden" name="taskId" value="${task.id}">
+                          <button type="submit" name="action" value="delete" class="btn btn-danger">Delete</button>
+                          <!-- Hidden inputs for each task -->
+                          <input type="hidden" name="completedTasks_${loop.index}" value="${task.id}">
+                          <input type="hidden" name="deletedTasks_${loop.index}" value="${task.id}">
+                       </c:if>
+
                        </form>
                        </td>
                          <c:set var="counter" value="${counter + 1}" scope="page" />
@@ -100,7 +108,7 @@
                                                    <td>
                                                <input type="checkbox" name="completedTasks">
 
-                                                <button class="btn btn-danger" type="submit" >Delete</button></td>
+                                                <button class="btn btn-danger" type="submit" id="deleteButton" style="display:none;">Delete</button></td>
 
                                                 </tr>
 

@@ -31,7 +31,7 @@ public class TaskController extends HttpServlet {
             String taskName = request.getParameter("taskName");
             String taskDescription = request.getParameter("taskDescription");
             int size = data.size();
-            Task task = new Task(0, taskName, taskDescription, false);
+            Task task = new Task(0, taskName, taskDescription, false,true);
             data.add(task);
             request.setAttribute("dataList", null);
         } else if ("save".equals(action)) {

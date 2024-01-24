@@ -5,12 +5,22 @@ public class Task {
     private String taskName;
     private String description;
     private boolean completed;
+    private boolean flagID;
 
-    public Task(int id, String taskName, String description, boolean completed) {
+    public boolean isFlagID() {
+        return flagID;
+    }
+
+    public void setFlagID(boolean flagID) {
+        this.flagID = flagID;
+    }
+
+    public Task(int id, String taskName, String description, boolean completed, boolean flagID) {
         this.id = id;
         this.taskName = taskName;
         this.description = description;
         this.completed = completed;
+        this.flagID=flagID;
     }
 
     public Task() {
